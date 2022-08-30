@@ -26,17 +26,21 @@
         <div class="wrapper">
           <div class="weather-card">
             <form name="form" action="#FIXME" method="get">
-              <input type="text" name="cityname" autocomplete="off" placeholder="enter city">
+              <input type="text" name="cityname" autocomplete="off" placeholder="enter city name">
               <button type="submit" class="search-btn">search</button>
             </form>
             <div class="weather-info">
               <div class="city-info">
-                <span>city:</span>
                 <h2 class="city-name">name</h2>
               </div>
               <div class="temp-info">
-                <span>temperature:</span>
-                <span class="temp-celcius">0 C</span>
+                <span class="temp-celcius">0&deg;C</span>
+              </div>
+              <div class="weather-desc">
+                <figure>
+                  <img src="http://openweathermap.org/img/wn/04d@2x.png" alt="Weather" class="weather-img">
+                </figure>
+                <span class="description">clouds</span>
               </div>
             </div>
           </div>
