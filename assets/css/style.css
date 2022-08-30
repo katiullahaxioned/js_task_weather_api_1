@@ -95,10 +95,7 @@ sub { bottom: -.25em; }
   --clr-grey1: #999;
   --clr-grey2: #555;
   --clr-white: #fff;
-  --clr-mist: #b8baa8;
-  --clr-haze: #b5b7ae;
-  --clr-cloud: #c7c4bf;
-  --clr-clear: #87cbde;
+  --clr-black: #000;
 }
 
 body {
@@ -163,26 +160,34 @@ header h1 {
 =================================*/
 
 .weather .wrapper {
+  width: 100%;
   height: 90vh;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   gap: 20px;
+  background-image: url(../images/Mist.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
 .weather-card {
-  min-width: 280px;
-  width: 50%;
+  max-width: 400px;
+  width: 100%;
   padding: 20px;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 80px;
-  box-shadow: inset 0 0 5px var(--clr-grey2);
-  text-transform: capitalize;
+  gap: 50px;
+  backdrop-filter: blur(5px);
+  background: rgba(0,0,0,0.1);
+  box-shadow: inset 1px 1px 4px var(--clr-white),
+              inset -1px -1px 4px var(--clr-black);
   font-weight: 600;
+  text-transform: capitalize;
 }
 
 .weather-info {
@@ -190,7 +195,9 @@ header h1 {
   display: flex;
   align-items: center;
   flex-direction: column;
-  gap: 20px;
+  gap: 30px;
+  color: var(--clr-white);
+  text-shadow: 0 0 4px var(--clr-black);
 }
 
 .weather-card form {
@@ -227,7 +234,7 @@ header h1 {
 
 .pointer-auto {
   opacity: 1;
-  pointer-events: auto;
+  pointer-events: initial;
 }
 
 .search-btn::before {
@@ -241,41 +248,23 @@ header h1 {
 }
 
 .city-info,
-.temp-info {
+.temp-info,
+.weather-desc {
   width: 100%;
-  padding: 10px;
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 5px;
-  box-shadow: inset 0 0 5px var(--clr-grey2);
 }
 
-.city-name,
-.temp-celcius {
-  font-size: 28px;
-}
+.weather-desc { flex-direction: column; }
+.weather-img { width: 60px; }
+.city-name { font-size: 20px; }
+.temp-celcius { font-size: 45px; }
+.description { font-size: 16px; }
+.display-none { display: none; }
 
 /*=================================
   main styling ends here
 =================================*/
-
-/*media query starts*/
-/*media query for 767px starts here*/
-@media only screen and (max-width: 767px) {
-  .weather .wrapper { width: 96%; }
-  .weather-card { width: 80%; }
-  .city-name,
-  .temp-celcius {
-    font-size: 24px;
-  }
-}  
-
-/*media query for 540px starts here*/
-@media only screen and (max-width: 540px) {
-  .weather-card {
-    width: 100%;
-    padding: 10px;
-  }
-}
