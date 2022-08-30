@@ -1,68 +1,60 @@
+var form = document.querySelector(".weather-card form");
 var searchInput = form.cityname;
 var searchButton = document.querySelector(".search-btn");
-var weatherCard = document.querySelector(".weather-card");
 var city = document.querySelector(".city-name");
 var temperature = document.querySelector(".temp-celcius");
-var weatherApi =
-  "https://api.openweathermap.org/data/2.5/weather?q=thane&units=metric&appid=638ebebf7fbf92a5e76ef37754e0631b";
+var weatherDescription = document.querySelector(".weather-desc");
+var weatherImg = document.querySelector(".weather-img");
+var description = document.querySelector(".description");
+var weatherWrapper = document.querySelector(".weather .wrapper");
+var apiKey = "638ebebf7fbf92a5e76ef37754e0631b";
 
-// common function for weather card background
-function weatherBgColor(weatherType) {
-  if (weatherType == "Haze") {
-    weatherCard.style.background = "var(--clr-haze)";
-  } else if (weatherType == "Clouds") {
-    weatherCard.style.background = "var(--clr-cloud)";
-  } else if (weatherType == "Clear") {
-    weatherCard.style.background = "var(--clr-clear)";
-  } else if (weatherType == "Mist") {
-    weatherCard.style.background = "var(--clr-mist)";
-  } else {
-    weatherCard.style.background = "var(--clr-white)";
-  }
-}
-
-// display searched city's weather on button clicked
-function displayWeather() {
-  var inputValue = searchInput.value.trim();
+// fetch Weather
+function fetchWeather(cityName) {
+  city.innerHTML = 'loading...';
+  temperature.innerHTML = 'loading...';
+  description.innerHTML = 'loading...';
   fetch(
     "https://api.openweathermap.org/data/2.5/weather?q=" +
-      inputValue +
-      "&units=metric&appid=638ebebf7fbf92a5e76ef37754e0631b"
+      cityName +
+      "&units=metric&appid=" +
+      apiKey
   )
     .then(function (response) {
       return response.json();
     })
     .then(function (data) {
-      var weatherType = data.weather[0].main;
-      weatherBgColor(weatherType);
-      city.innerHTML = data.name + "," + data.sys.country;
-      temperature.innerHTML = data.main.temp + " C";
-      searchInput.value = "";
-      searchButton.classList.remove("pointer-auto");
+      showWeather(data);
     })
     .catch(function (error) {
       searchInput.value = "";
       searchButton.classList.remove("pointer-auto");
-      alert("Fetch error! or invalid input");
+      console.log(error.name + ' : ' +  error.message);
     });
 }
 
-// on page load - one city's weather must display
-fetch(weatherApi)
-  .then(function (response) {
-    return response.json();
-  })
-  .then(function (data) {
-    var weatherType = data.weather[0].main;
-    weatherBgColor(weatherType);
-    city.innerHTML = data.name + "," + data.sys.country;
-    temperature.innerHTML = data.main.temp + " C";
-    searchInput.value = "";
-    searchButton.classList.remove("pointer-auto");
-  })
-  .catch(function (error) {
-    console.log(error.name, 'Fetch error!');
-  });
+// show Weather
+function showWeather(data) {
+  if(data.cod = 404) {
+  city.innerHTML = 'no city found';
+  temperature.classList.add('display-none');
+  weatherDescription.classList.add('display-none');
+  searchInput.value = "";
+  }
+
+  weatherWrapper.style.backgroundImage = 'url(assets/images/' + data.weather[0].main + '.jpg)';
+  city.innerHTML = data.name + "," + data.sys.country;
+  temperature.innerHTML = Math.round(data.main.temp) + "&degC";
+  weatherImg.src = "http://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png";
+  description.innerHTML = data.weather[0].main;
+  searchInput.value = "";
+  searchButton.classList.remove("pointer-auto");
+  temperature.classList.remove('display-none');
+  weatherDescription.classList.remove('display-none');
+}
+
+// call fetchWeather when page load / reload
+fetchWeather('mumbai');
 
 // if input field is empty than search button will not work
 searchInput.addEventListener("keyup", function () {
@@ -74,7 +66,7 @@ searchInput.addEventListener("keyup", function () {
 });
 
 // search button click event
-searchButton.addEventListener("click", function (e) {
+form.addEventListener("submit", function (e) {
   e.preventDefault();
-  displayWeather();
+  fetchWeather(searchInput.value.trim());
 });
