@@ -14,12 +14,9 @@ function fetchWeather(cityName) {
   city.innerHTML = 'loading...';
   temperature.innerHTML = 'loading...';
   description.innerHTML = 'loading...';
-  fetch(
-    "https://api.openweathermap.org/data/2.5/weather?q=" +
-      cityName +
-      "&units=metric&appid=" +
-      apiKey
-  )
+  var apiLink = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=metric&appid=" + apiKey;
+  
+  fetch(apiLink)
     .then(function (response) {
       return response.json();
     })
